@@ -1,0 +1,34 @@
+﻿@using MoviesRatings.Data
+@inject IMoviesService MovieService
+@page "/Movies"
+<h3>Movie</h3>
+@if(movies == null)
+{
+    <p>loading</p>
+}
+else {
+    <table>
+        <tr>
+            <th>Movie Title</th>
+            <th>Year made</th>
+            <th>Movie Type</th>
+        </tr>
+        @foreach(var movie in movies)
+        {
+            <tr>
+                <td>@movie.Name</td>
+                <td>@movie.Year</td>
+                <td>@movie.Type</td>
+            </tr>
+        }
+    </table>
+}
+
+@code {
+    List<Movie> movies;
+    protected override async Task OnInitializedAsync()
+    {
+
+        movies = await MovieService.GetMovies();
+    }
+}
