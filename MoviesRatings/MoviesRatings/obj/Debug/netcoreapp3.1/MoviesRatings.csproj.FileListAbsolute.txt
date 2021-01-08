@@ -103,3 +103,5 @@ D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Movi
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\MoviesRatings.genruntimeconfig.cache
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\ActorPage.razor.g.cs
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Razor\Pages\ActorPage.razor.g.cs
+D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\RazorDeclaration\Shared\Modal.razor.g.cs
+D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Razor\Shared\Modal.razor.g.cs

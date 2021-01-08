@@ -1,0 +1,49 @@
+﻿@inject IJSRuntime JSRuntime
+
+<dialog @ref="_element">@ChildContent</dialog>
+
+@code {
+    private DotNetObjectReference<Modal> _this;
+    private ElementReference _element;
+
+    //Content of the dialog
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public bool Open { get; set; }
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter]
+    public EventCallback<string> Close { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //Initialize the dialog events for the first time
+        if (firstRender)
+        {
+            _this = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("initializeModal", _element, _this);
+        }
+        if (Open)
+        {
+            await JSRuntime.InvokeVoidAsync("showModal", _element);
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("closeModal", _element);
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    [JSInvokable]
+    public async Task OnClose(string returnValue)
+    {
+        if (Open)
+        {
+            Open = false;
+            await OpenChanged.InvokeAsync(Open);
+        }
+        await Close.InvokeAsync(returnValue);
+    }
+}

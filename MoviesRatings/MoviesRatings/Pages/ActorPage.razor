@@ -1,6 +1,7 @@
 ﻿@using MoviesRatings.Data
 @page "/actor"
 @inject IActorService ActorService
+@inject IJSRuntime JSRuntime
  
 
 <h3>ActorPage</h3>
@@ -27,10 +28,56 @@ else
     </table>
 }
 
+<button id="btnAddActor" @onclick="e=> IsModalOpened = true">Add Actor</button>
+<dialog @ref="_element"> My modal</dialog>
+
+<Modal @bind-Open="IsModalOpened" Close="OnClose">
+    <form method="dialog">
+        <h2>Add Actor</h2>
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" />
+        <br />
+        <label for"lastName>Last Name</label>
+        <input type="text" id="lastName" />
+        <br />
+        <label for="gender">Gender</label>
+        <select id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <br />
+        <input type="submit" value="Submit" />
+        <input type="button" value="Cancel" />
+    </form>
+</Modal>
+
 @code {
     List<Actor> actors;
+    private ElementReference _element;
+    public bool IsModalOpened { get; set; }
+    public string SelectedButton { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         actors = await ActorService.GetActors();
+    }
+
+    private async Task OpenModal()
+    {
+        //calling the js function for the JsLibrary
+        await JSRuntime.InvokeVoidAsync("showModal", _element);
+    }
+
+    public async Task InitializeModal()
+    {
+        var reference = DotNetObjectReference.Create(this);
+
+        await JSRuntime.InvokeVoidAsync("initializeModal", _element, reference);
+    }
+
+    [JSInvokable]
+    public void OnClose(string returnVal)
+    {
+        SelectedButton = returnVal;
     }
 }
