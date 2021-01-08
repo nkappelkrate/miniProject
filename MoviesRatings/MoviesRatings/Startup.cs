@@ -33,7 +33,8 @@ namespace MoviesRatings
 
             #region register
             //Register IMovieService and MovieService
-            services.AddScoped<IMoviesService, MovieService>();         
+            services.AddScoped<IMoviesService, MovieService>();
+            services.AddScoped<IActorService, ActorService>();
             //establish the connection
             services.AddSingleton<IMongoClient, MongoClient>(s =>
             {

@@ -1,0 +1,36 @@
+﻿@using MoviesRatings.Data
+@page "/actor"
+@inject IActorService ActorService
+ 
+
+<h3>ActorPage</h3>
+@if(actors == null)
+{
+    <p>loading</p>
+}
+else
+{
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+        </tr>
+        @foreach(var actor in actors)
+        {
+            <tr>
+                <td>@actor.FirstName</td>
+                <td>@actor.LastName</td>
+                <td>@actor.Gender</td>
+            </tr>
+        }
+    </table>
+}
+
+@code {
+    List<Actor> actors;
+    protected override async Task OnInitializedAsync()
+    {
+        actors = await ActorService.GetActors();
+    }
+}
