@@ -14,7 +14,14 @@ function initializeModal(dialog, reference) {
 }
 
 function closeModal(dialog) {
+    console.log("close Modal");
     if (dialog.open) {
         dialog.close();
     }
 }
+
+function displaySuccessMsg() {
+    var msg = "You have successfully added new Actor/Actress";
+    window.alert(msg);
+}
+

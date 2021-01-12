@@ -2,10 +2,10 @@
 @page "/actor"
 @inject IActorService ActorService
 @inject IJSRuntime JSRuntime
- 
+@inject NavigationManager NavigationManager
 
 <h3>ActorPage</h3>
-@if(actors == null)
+@if (actors == null)
 {
     <p>loading</p>
 }
@@ -16,51 +16,121 @@ else
             <th>First Name</th>
             <th>Last Name</th>
             <th>Gender</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
-        @foreach(var actor in actors)
+        @foreach (var actor in actors)
         {
             <tr>
                 <td>@actor.FirstName</td>
                 <td>@actor.LastName</td>
                 <td>@actor.Gender</td>
+                <td>
+                    @*when clicked, enter the edit mode*@
+                    <button id="btnEdit" @onclick="async e=> { await GetEditActor(actor.Id); IsModalOpened = true; }"><img src="/Images/edit.png" height="20" width="20" alt="Edit" /> </button>
+                </td>
+                <td>
+                    <button id="btnDelete" @onclick="async e => await DeleteActor(actor)"><img src="/Images/delete.png" height="20" width="20" alt="Delete" /></button>
+                </td>
             </tr>
         }
     </table>
 }
 
-<button id="btnAddActor" @onclick="e=> IsModalOpened = true">Add Actor</button>
-<dialog @ref="_element"> My modal</dialog>
+<button id="btnAddActor" @onclick="e=> {currentActor = new Actor(); IsModalOpened = true; }">Add Actor</button>
+@*<dialog @ref="_element"> My modal</dialog>*@
 
+@*modal*@
 <Modal @bind-Open="IsModalOpened" Close="OnClose">
-    <form method="dialog">
+    <form @onsubmit="SaveActor">
         <h2>Add Actor</h2>
         <label for="firstName">First Name</label>
-        <input type="text" id="firstName" />
+        <input type="text" id="firstName" @bind="currentActor.FirstName" />
         <br />
         <label for"lastName>Last Name</label>
-        <input type="text" id="lastName" />
+        <input type="text" id="lastName" @bind="currentActor.LastName" />
         <br />
         <label for="gender">Gender</label>
-        <select id="gender">
-            <option value="Male">Male</option>
+        <select id="gender" @bind="currentActor.Gender" >
+            <option value="Male" selected>Male</option>
             <option value="Female">Female</option>
         </select>
         <br />
         <input type="submit" value="Submit" />
-        <input type="button" value="Cancel" />
+        <input type="reset" value="Reset" />
+
     </form>
 </Modal>
 
 @code {
     List<Actor> actors;
+    Actor currentActor = new Actor();
     private ElementReference _element;
     public bool IsModalOpened { get; set; }
+    public bool IsEditMode { get; set; }
     public string SelectedButton { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         actors = await ActorService.GetActors();
     }
+
+    public async Task SaveActor()
+    {
+        /*
+        Normally we would check if the ID equal to 0, that mean this is a new data to be insert.
+        But since Mongodb's is is a mongodb object, we would have to find a way to work around it
+        
+        mongodb uses the epochTime(1/1/1970) as default for it's CreationTime        
+        */
+
+
+        var TestId = currentActor.Id.ToString();
+
+        var creationDate = currentActor.Id.CreationTime;
+        var epochTime = new DateTime(1970, 1, 1);
+
+        //checking if this is a new actor
+        if (DateTime.Compare(creationDate, epochTime) == 0)
+        {
+            //insert
+            await ActorService.CreateNewActor(currentActor);
+
+        }
+        else //edit existed actor/actress
+        {
+            //Update
+            await ActorService.EditActor(currentActor.Id, currentActor);
+        }
+
+        this.IsModalOpened = false;
+        //refresh page
+        //ToDo: find a better way of doing this
+        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/actor");
+    }
+    private async Task CloseModal()
+    {
+        await JSRuntime.InvokeVoidAsync("closeModal", _element);
+    }
+
+    private async Task GetEditActor(MongoDB.Bson.ObjectId id)
+    {
+        currentActor = await ActorService.GetActor(id);
+    }
+
+    private async Task DeleteActor(Actor actor)
+    {
+        //Ask user to confirm if they want to delete actor/actress
+        if (await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete {actor.FirstName} {actor.LastName}?"))
+        {            
+            await ActorService.DeleteActor(actor.Id);
+            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/actor");
+        }
+
+    }
+
 
     private async Task OpenModal()
     {
@@ -76,8 +146,14 @@ else
     }
 
     [JSInvokable]
-    public void OnClose(string returnVal)
+    public async void OnClose(string returnVal)
     {
-        SelectedButton = returnVal;
+        //SelectedButton = returnVal;
+        await JSRuntime.InvokeVoidAsync("displaySuccessMsg");
+    }
+
+    public async void Validate(string value, string outputElement)
+    {
+        await JSRuntime.InvokeVoidAsync(value, outputElement);
     }
 }
