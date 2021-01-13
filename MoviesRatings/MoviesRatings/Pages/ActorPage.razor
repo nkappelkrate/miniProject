@@ -16,23 +16,25 @@ else
             <th>First Name</th>
             <th>Last Name</th>
             <th>Gender</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th></th>
+            <th></th>
         </tr>
         @foreach (var actor in actors)
         {
+
             <tr>
                 <td>@actor.FirstName</td>
                 <td>@actor.LastName</td>
                 <td>@actor.Gender</td>
                 <td>
                     @*when clicked, enter the edit mode*@
-                    <button id="btnEdit" @onclick="async e=> { await GetEditActor(actor); IsModalOpened = true; }"><img src="/Images/edit.png" height="20" width="20" alt="Edit" /> </button>
+                    <button id="btnEdit_@order" @onclick="async e => { await GetEditActor(actor); IsModalOpened = true; }"><img src="/Images/edit.png" height="20" width="20" alt="Edit" /> </button>
                 </td>
                 <td>
-                    <button id="btnDelete" @onclick="async e => await DeleteActor(actor)"><img src="/Images/delete.png" height="20" width="20" alt="Delete" /></button>
+                    <button id="btnDelete_@order" @onclick="async e => await DeleteActor(actor)"><img src="/Images/delete.png" height="20" width="20" alt="Delete" /></button>
                 </td>
             </tr>
+            order++;
         }
     </table>
 }
@@ -79,7 +81,7 @@ else
     public bool IsModalOpened { get; set; }
     public bool IsEditMode { get; set; }
     public string SelectedButton { get; set; }
-
+    private int  order = 1;
     protected override async Task OnInitializedAsync()
     {
         actors = await ActorService.GetActors();
@@ -154,7 +156,6 @@ else
 
     }
 
-
     private async Task OpenModal()
     {
         //calling the js function for the JsLibrary
@@ -168,7 +169,7 @@ else
         await JSRuntime.InvokeVoidAsync("initializeModal", _element, reference);
     }
 
-    //Specfied what to do after the modal is closed
+    //Specfiy what to do after the modal is closed
     [JSInvokable]
     public async void OnClose(string returnVal)
     {

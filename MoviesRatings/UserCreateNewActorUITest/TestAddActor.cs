@@ -17,6 +17,7 @@ namespace UserCreateNewActorUITest
         private IWebDriver driver;
         private string appURL;
         private WebDriverWait wait;
+        private Action builder;
 
         private const string firstNameEmptyErrMsg = "First Name is requried";
         private const string lastNameEmptyErrMsg = "Last Name is requried";
@@ -54,7 +55,7 @@ namespace UserCreateNewActorUITest
             //checking for error message
 
             //clean up
-            RemoveActor();
+            RemoveActor(1);
         }
 
         [TestMethod]
@@ -90,7 +91,7 @@ namespace UserCreateNewActorUITest
             //Check for successful added message
             //Check for the first row's value
             //Clean up
-            RemoveActor();
+            RemoveActor(1);
         }
 
         [TestMethod]
@@ -104,7 +105,7 @@ namespace UserCreateNewActorUITest
             //Check for successful added message
             //Check for the first row's value
             //Clean up
-            RemoveActor();
+            RemoveActor(1;
         }
         [TestMethod]
         [TestCategory("Chrome")]
@@ -136,7 +137,7 @@ namespace UserCreateNewActorUITest
             AddActor("Ryan", "Re");
             //Check for successful message
             //chech the fisrt row of the table
-            RemoveActor();
+            RemoveActor(1);
         }
 
         [TestMethod]
@@ -147,7 +148,7 @@ namespace UserCreateNewActorUITest
             AddActor("Ryan", new string('a', 50));
             //Check for successful message
             //chech the fisrt row of the table
-            RemoveActor();
+            RemoveActor(1);
         }
 
         [TestMethod]
@@ -192,7 +193,7 @@ namespace UserCreateNewActorUITest
         private void AddActor(string fName, string lName)
         {
             //set url
-            appURL = "";
+            appURL = "/actor";
             //navigate to the actor page
             driver.Navigate().GoToUrl(appURL);
             //wait for the Add Actor button to show up
@@ -214,9 +215,11 @@ namespace UserCreateNewActorUITest
         /**
          * This is a helper method that is used to remove actor from the database
          */
-        private void RemoveActor()
+        private void RemoveActor(int order)
         {
-
+            var btnDelete = wait.Until(e => e.FindElement(By.Id("btnDelete_"+order)));
+            btnDelete.Click();
+            btnDelete.SendKeys(Keys.Enter);
         }
         #endregion
         public TestContext TestContext
@@ -256,6 +259,7 @@ namespace UserCreateNewActorUITest
             //to wait until a specified element appeared
             TimeSpan duration = TimeSpan.FromSeconds(5);
             wait = new WebDriverWait(driver, duration);
+            
         }
         [TestCleanup]
         public void CleanUp()
