@@ -1,0 +1,9 @@
+﻿@*This is a helper component that is used to create to display more dynamic validation error, but adding oninput event to the input tag *@
+@inherits InputText
+
+@* Bind to the oninput event*@
+<input @attributes="AdditionalAttributes" value="@CurrentValue" @oninput="EventCallback.Factory.CreateBinder<String>(this, _value => CurrentValueAsString = _value, CurrentValueAsString)"/>
+
+@code {
+
+}

@@ -104,3 +104,6 @@ D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\stat
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\MoviesRatings.dll
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\MoviesRatings.pdb
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\MoviesRatings.genruntimeconfig.cache
+D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\MoviesRatings.csprojAssemblyReference.cache
+D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\RazorDeclaration\Shared\InputOnKeyPress.razor.g.cs
+D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Razor\Shared\InputOnKeyPress.razor.g.cs

@@ -20,8 +20,12 @@ function closeModal(dialog) {
     }
 }
 
-function displaySuccessMsg() {
+function displaySuccessAddMsg() {
     var msg = "You have successfully added new Actor/Actress";
+    window.alert(msg);
+}
+function displaySuccessEditMsg() {
+    var msg = "You have successfully updated Actor/Actress";
     window.alert(msg);
 }
 

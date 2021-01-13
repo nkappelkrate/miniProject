@@ -15,15 +15,23 @@ namespace MoviesRatings.Data
 
         public ActorService(IMongoClient client)
         {
+            //Estashlish the connection to the database
             var database = client.GetDatabase("ProjectDemo");
+            //Connecting to the Collection
             _actor = database.GetCollection<Actor>("Actors");
         }
+
+        /// <summary>
+        /// Method uses to create a new Actor
+        /// </summary>
+        /// <param name="actor"> Actor object</param>
+        /// <returns>true: if successfully create new actor, false otherwise</returns>
         public async Task<bool> CreateNewActor(Actor actor)
         {
 
             try
             {
-                await _actor.InsertOneAsync(actor);
+                await _actor.InsertOneAsync(actor);                
                 return true;
             }
             catch

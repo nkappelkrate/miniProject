@@ -27,7 +27,7 @@ else
                 <td>@actor.Gender</td>
                 <td>
                     @*when clicked, enter the edit mode*@
-                    <button id="btnEdit" @onclick="async e=> { await GetEditActor(actor.Id); IsModalOpened = true; }"><img src="/Images/edit.png" height="20" width="20" alt="Edit" /> </button>
+                    <button id="btnEdit" @onclick="async e=> { await GetEditActor(actor); IsModalOpened = true; }"><img src="/Images/edit.png" height="20" width="20" alt="Edit" /> </button>
                 </td>
                 <td>
                     <button id="btnDelete" @onclick="async e => await DeleteActor(actor)"><img src="/Images/delete.png" height="20" width="20" alt="Delete" /></button>
@@ -42,24 +42,34 @@ else
 
 @*modal*@
 <Modal @bind-Open="IsModalOpened" Close="OnClose">
-    <form @onsubmit="SaveActor">
+    <EditForm Model="@currentActor" OnValidSubmit="@SaveActor">
         <h2>Add Actor</h2>
+        <DataAnnotationsValidator />
+        @*<ValidationSummary/>*@
         <label for="firstName">First Name</label>
-        <input type="text" id="firstName" @bind="currentActor.FirstName" />
+        @*<input type="text" id="firstName" @bind="currentActor.FirstName" />*@
+
+        @*Dynamic input validation using the created InputOnKeyPress component**@
+        <InputOnKeyPress id="firstName" @bind-Value="currentActor.FirstName" />
+        <ValidationMessage id="firstNameErr" For="() => currentActor.FirstName" />
         <br />
         <label for"lastName>Last Name</label>
-        <input type="text" id="lastName" @bind="currentActor.LastName" />
+        <InputOnKeyPress id="lastName" @bind-Value="currentActor.LastName" />
+        @*https://docs.microsoft.com/en-us/aspnet/core/blazor/forms-validation?view=aspnetcore-5.0*@
+        <ValidationMessage id="lastNameErr" For="() => currentActor.LastName" />
         <br />
         <label for="gender">Gender</label>
-        <select id="gender" @bind="currentActor.Gender" >
-            <option value="Male" selected>Male</option>
+        <select id="gender" @bind="currentActor.Gender">
+            <option value="-1" selected disabled>Please select a gender</option>
+            <option value="Male">Male</option>
             <option value="Female">Female</option>
         </select>
+        <ValidationMessage id="genderErr" For="() => currentActor.Gender" />
         <br />
         <input type="submit" value="Submit" />
         <input type="reset" value="Reset" />
 
-    </form>
+    </EditForm>
 </Modal>
 
 @code {
@@ -89,41 +99,54 @@ else
 
         var creationDate = currentActor.Id.CreationTime;
         var epochTime = new DateTime(1970, 1, 1);
+        var result = false;
 
         //checking if this is a new actor
         if (DateTime.Compare(creationDate, epochTime) == 0)
         {
             //insert
-            await ActorService.CreateNewActor(currentActor);
+            if (result = await ActorService.CreateNewActor(currentActor))
+            {
+                await JSRuntime.InvokeVoidAsync("displaySuccessAddMsg");
+            }
+
 
         }
         else //edit existed actor/actress
         {
             //Update
-            await ActorService.EditActor(currentActor.Id, currentActor);
+            if(result = await ActorService.EditActor(currentActor.Id, currentActor))
+            {
+                await JSRuntime.InvokeVoidAsync("displaySuccessEditMsg");
+            }
         }
 
-        this.IsModalOpened = false;
-        //refresh page
-        //ToDo: find a better way of doing this
-        NavigationManager.NavigateTo("/");
-        NavigationManager.NavigateTo("/actor");
+        //Close the modal and fresh the page after successfully complete the task
+        if (result)
+        {
+            this.IsModalOpened = false;
+            //refresh page
+            //ToDo: find a better way of doing this
+            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/actor");
+        }
+
     }
     private async Task CloseModal()
     {
         await JSRuntime.InvokeVoidAsync("closeModal", _element);
     }
 
-    private async Task GetEditActor(MongoDB.Bson.ObjectId id)
+    private async Task GetEditActor(Actor actor)
     {
-        currentActor = await ActorService.GetActor(id);
+        currentActor = await ActorService.GetActor(actor.Id);
     }
 
     private async Task DeleteActor(Actor actor)
     {
         //Ask user to confirm if they want to delete actor/actress
         if (await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete {actor.FirstName} {actor.LastName}?"))
-        {            
+        {
             await ActorService.DeleteActor(actor.Id);
             NavigationManager.NavigateTo("/");
             NavigationManager.NavigateTo("/actor");
@@ -145,15 +168,11 @@ else
         await JSRuntime.InvokeVoidAsync("initializeModal", _element, reference);
     }
 
+    //Specfied what to do after the modal is closed
     [JSInvokable]
     public async void OnClose(string returnVal)
     {
         //SelectedButton = returnVal;
-        await JSRuntime.InvokeVoidAsync("displaySuccessMsg");
     }
 
-    public async void Validate(string value, string outputElement)
-    {
-        await JSRuntime.InvokeVoidAsync(value, outputElement);
-    }
 }
