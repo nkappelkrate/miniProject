@@ -2,18 +2,18 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("UserCreateNewActorUITest")]
+[assembly: AssemblyTitle("UserAddActorUiTesting")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("UserCreateNewActorUITest")]
+[assembly: AssemblyProduct("UserAddActorUiTesting")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 
-[assembly: Guid("f34ca49a-d844-4cfe-8cc5-19e4019af053")]
+[assembly: Guid("d434b78f-420e-42a5-981a-4ba24c5013aa")]
 
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]

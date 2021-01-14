@@ -11,14 +11,13 @@ namespace MoviesRatings.Data
     {
         public ObjectId Id { get; set; } 
         //public ObjectId CastId { get; set; }
-        [Required]
+        [Required( ErrorMessage ="First Name is requried")]
         [StringLength(50, MinimumLength =2, ErrorMessage = "First Name must be between 2 and 50 characters long")]
-        //[MinLength(2, ErrorMessage = "First Name must be between 2 and 50 characters long")]
         public string FirstName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Last Name is requried")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Last Name must be between 2 and 50 characters long")]
         public string LastName { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Gender is required")]
         public string Gender { get; set; }
     }
 }
