@@ -62,7 +62,6 @@ D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Movi
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\RazorDeclaration\App.razor.g.cs
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\ActorPage.razor.g.cs
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Counter.razor.g.cs
-D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\FetchData.razor.g.cs
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Index.razor.g.cs
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Movies.razor.g.cs
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\RazorDeclaration\Shared\InputOnKeyPress.razor.g.cs
@@ -78,7 +77,6 @@ D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Movi
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Razor\App.razor.g.cs
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Razor\Pages\ActorPage.razor.g.cs
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Razor\Pages\Counter.razor.g.cs
-D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Razor\Pages\FetchData.razor.g.cs
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Razor\Pages\Index.razor.g.cs
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Razor\Pages\Movies.razor.g.cs
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\Razor\Shared\InputOnKeyPress.razor.g.cs
@@ -105,4 +103,7 @@ D:\Practice\miniProject\MoviesRatings\MoviesRatings\bin\Debug\netcoreapp3.1\Movi
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\bin\Debug\netcoreapp3.1\MoviesRatings.pdb
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\bin\Debug\netcoreapp3.1\MoviesRatings.Views.pdb
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\MoviesRatings.genruntimeconfig.cache
+D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\MoviesRatings.csprojAssemblyReference.cache
+D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\MoviesRatings.RazorComponent.output.cache
+D:\Practice\miniProject\MoviesRatings\MoviesRatings\obj\Debug\netcoreapp3.1\scopedcss\bundle\MoviesRatings.styles.css
 D:\Practice\miniProject\MoviesRatings\MoviesRatings\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
